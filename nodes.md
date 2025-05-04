@@ -12,3 +12,4 @@
 
 **npx prisma studio** -> show the data base
 
+**note** - user rapid api judge0
