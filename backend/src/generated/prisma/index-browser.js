@@ -130,6 +130,7 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.ProblemScalarFieldEnum = {
   id: 'id',
+  title: 'title',
   name: 'name',
   description: 'description',
   difficulty: 'difficulty',
