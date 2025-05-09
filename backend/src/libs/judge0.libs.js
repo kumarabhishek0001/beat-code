@@ -1,3 +1,4 @@
+import axios from 'axios'
 export const getJudge0LanguageId = (Language) => {
     const languageMap = {
         "PYTHON" : 71,
@@ -6,7 +7,7 @@ export const getJudge0LanguageId = (Language) => {
 
     }
 
-    return languageMap[Language.toUppercase()] 
+    return languageMap[Language.toUpperCase()] 
 }
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -27,7 +28,7 @@ export const pollBatchResults = async(token) => {
 
         if(isAllDone) return results
 
-        await StylePropertyMap(1000)
+        await sleep(1000)
     }
 }
 

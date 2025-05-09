@@ -1,9 +1,9 @@
 import {db} from '../libs/db.js'
-import { getJudge0LanguageId, submitBatch } from '../libs/judge0.libs.js'
+import { getJudge0LanguageId, submitBatch, pollBatchResults } from '../libs/judge0.libs.js'
 
 export const createProblem = async (req, res, next) => {
     //get data from body
-    const {title, description, difficulty, tags, examples, constrains, testcases, codeSnippet, referenceSolution} = req.body
+    const {title, description, difficulty, tags, examples, constraints, testcases, codeSnippets, referenceSolutions} = req.body
 
     //check role
     if(req.user.role !== "ADMIN"){
@@ -11,10 +11,10 @@ export const createProblem = async (req, res, next) => {
             error: "You are not allowed to create a problem"
         })
     }
-
+    
     try {
         
-        for (const [language, solutionCode] of Object.entries(referenceSolution)) {
+        for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
             const languageId = getJudge0LanguageId(language);
 
             if(!languageId) {
@@ -38,25 +38,38 @@ export const createProblem = async (req, res, next) => {
 
             for(let i=0 ; i<results.length; i++){
                 const result = results[i]
+                console.log("Result -----", results)
 
-                if(result.staus.id !== 3){
-                    return res.status(400).json({error: `testcase ${i+1} failed for language ${language}`})
+                // console.log(
+                //     `Testcase ${i+1} and language ${language} ---- result ${JSON.stringify(result.status.description)}`
+                // )
+
+                if(result.status.id !== 3){
+                    return res.status(400).json({
+                        error: `testcase ${i+1} failed for language ${language}`
+                    })
                 }
             }
-
-            const newProblem = await db.problem.create({
+        }
+        const newProblem = await db.problem.create({
                 data: {
-                    title, description, difficulty, tags, examples, constrains, testcases, codeSnippet, referenceSolution, userId: req.user.id
+                    title, description, difficulty, tags, examples, constraints, testcases, codeSnippets, referenceSolutions, userId: req.user.id
             
                 }
             })
 
-            return res.status(201).json(newProblem)
-        }
+        return res.status(201).json({
+            success: true,
+            message: "Problem created successfully",
+            problem: newProblem
+        })
 
 
     } catch (error) {
-        
+        console.log(error)
+        return res.status(500).json({
+            error: "Error while creating problem",
+        })   
     }
 }
 

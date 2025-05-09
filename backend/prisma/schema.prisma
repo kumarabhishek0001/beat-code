@@ -42,19 +42,18 @@ model User {
 model Problem {
   id          String     @id @default(uuid())
   title       String
-  name        String
   description String
   difficulty  Difficulty
   tags        String[]
   userId      String
   examples    Json
-  constrains  String
-  hits        String?
+  constraints String
+  hints       String?
   editorial   String?
 
-  testcases         Json
-  codeSnippet       Json
-  referenceSolution Json
+  testcases          Json
+  codeSnippets       Json
+  referenceSolutions Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
