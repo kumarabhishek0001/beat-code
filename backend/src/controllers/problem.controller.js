@@ -1,7 +1,7 @@
 import {db} from '../libs/db.js'
 import { getJudge0LanguageId, submitBatch, pollBatchResults } from '../libs/judge0.libs.js'
 
-export const createProblem = async (req, res, next) => {
+export const createProblem = async (req, res) => {
     //get data from body
     const {title, description, difficulty, tags, examples, constraints, testcases, codeSnippets, referenceSolutions} = req.body
 
@@ -72,19 +72,95 @@ export const createProblem = async (req, res, next) => {
         })   
     }
 }
+export const getAllProblems = async(req, res) => {
+    try {
+        const problems = await db.problem.findMany()
 
-export const getAllProblems = async(req, res, next) => {
-    
-}
-export const getAllProblemById = async(req, res, next) => {
+        if(!problems){
+            return res.status(404).json({
+                error: "no problem found"
+            })
+        }
 
+        res.status(200).json({
+            success: true,
+            message: "Problem fetched successfully",
+            problems
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error: "Error while fetching problem",
+        }) 
+    }
 }
-export const updateProblemById = async(req, res, next) => {
+export const getAllProblemById = async(req, res) => {
+    const {id} = req.params
 
-}
-export const deleteProblem = async(req, res, next) => {
+    try {
+        const problem = await db.problem.findUnique({
+            where : {
+                id
+            }
+        })
 
+        if(!problem){
+            return res.status(404).json({
+                error: "problem not found"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Problem fetched by Id successfully",
+            problem
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error: "Error while fetching problem by Id",
+        }) 
+    }
 }
-export const getAllProblemSolvedByUser = async(req, res, next) => {
+export const updateProblemById = async(req, res) => {
+    //get id from param
+    //id ---> problem
+    //baaki same as create
+    //instead of create use update
+}
+export const deleteProblem = async(req, res) => {
+    const {id} = req.params
+
+    try {
+        const problem = await db.problem.findUnique({
+            where : {
+                id
+            }
+        });
+        
+        if(!problem){
+            return res.status(404).json({
+                error: "Problem not found"
+            })
+        }
+
+        await db.problem.delete({
+            where: {
+                id
+            }
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "problem deleted successfully"
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error: "Error while deleting problem by Id",
+        }) 
+    }
+}
+export const getAllProblemSolvedByUser = async(req, res) => {
 
 }
