@@ -127,6 +127,7 @@ export const updateProblemById = async(req, res) => {
     //id ---> problem
     //baaki same as create
     //instead of create use update
+    // TODO: write this controller
 }
 export const deleteProblem = async(req, res) => {
     const {id} = req.params
@@ -162,5 +163,5 @@ export const deleteProblem = async(req, res) => {
     }
 }
 export const getAllProblemSolvedByUser = async(req, res) => {
-
+    
 }
