@@ -1,24 +1,7 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+created model for
+- Submission
+- TestCaseResult
+- ProblemSolved
 
 
 <hr>
