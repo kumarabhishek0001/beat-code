@@ -154,7 +154,7 @@ exports.Prisma.SubmissionScalarFieldEnum = {
   language: 'language',
   stdin: 'stdin',
   stdout: 'stdout',
-  sdterr: 'sdterr',
+  stderr: 'stderr',
   compileOutput: 'compileOutput',
   status: 'status',
   memory: 'memory',
