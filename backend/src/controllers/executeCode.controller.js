@@ -78,7 +78,7 @@ export const executeCode = async(req, res) => {
                 language: getLanguageName(language_id),
                 stdin: stdin.join("\n"),
                 stdout: detailedResults.map((r) => r.stdout) ? JSON.stringify(detailedResults.map((r) => r.stdout)) : null,
-                stdegrr: detailedResults.some((r) => r.stderr) ? JSON.stringify(detailedResults.some((r) => r.stderr)) : null,
+                stderr: detailedResults.some((r) => r.stderr) ? JSON.stringify(detailedResults.some((r) => r.stderr)) : null,
                 status : allPassed ? "Accepted" : "Wrong Answer",
                 time: detailedResults.some((r) => r.time) ? JSON.stringify(detailedResults.map((r) => r.time)) : null,
                 memory: detailedResults.some((r) => r.memory) ? JSON.stringify(detailedResults.map((r) => r.memory)) : null,
